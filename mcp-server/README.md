@@ -46,5 +46,25 @@ npm run --silent mcp
 ## Session transcript
 <!-- Paste one full session: initialize, the reply, tools/list, one good tools/call, one that fails. -->
 
+```text
+$ node mcp-server/server.js
+{"jsonrpc":"2.0","id":1,"method":"initialize","params":{"protocolVersion":"2025-11-25","capabilities":{},"clientInfo":{"name":"me","version":"1.0.0"}}}
+got: {"jsonrpc":"2.0","id":1,"method":"initialize","params":{"protocolVersion":"2025-11-25","capabilities":{},"clientInfo":{"name":"me","version":"1.0.0"}}}
+{"jsonrpc":"2.0","id":1,"result":{"protocolVersion":"2025-11-25","capabilities":{"tools":{}},"serverInfo":{"name":"lectures","version":"0.1.0"}}}
+{"jsonrpc":"2.0","method":"notifications/initialized"}
+got: {"jsonrpc":"2.0","method":"notifications/initialized"}
+{"jsonrpc":"2.0","id":2,"method":"tools/list"}
+got: {"jsonrpc":"2.0","id":2,"method":"tools/list"}
+{"jsonrpc":"2.0","id":2,"result":{"tools":[{"name":"find_lecture","description":"Return the title and topics of one course lecture by its number, 1 to 10. Use it when asked what a specific lecture covers. Returns one line of text.","inputSchema":{"type":"object","properties":{"number":{"type":"integer","description":"Lecture number, 1 to 10"}},"required":["number"]}},{"name":"search_lectures","description":"Search all course lectures for a keyword in their title or topics, case-insensitive. Use it when asked which lecture covers a subject (for example \"MCP\" or \"testing\") and the number is not known. Returns one line per matching lecture with its number, title and topics, or a message that nothing matched.","inputSchema":{"type":"object","properties":{"keyword":{"type":"string","description":"A word or phrase to look for, e.g. \"security\""}},"required":["keyword"]}}]}}
+{"jsonrpc":"2.0","id":3,"method":"tools/call","params":{"name":"find_lecture","arguments":{"number":5}}}
+got: {"jsonrpc":"2.0","id":3,"method":"tools/call","params":{"name":"find_lecture","arguments":{"number":5}}}
+{"jsonrpc":"2.0","id":3,"result":{"content":[{"type":"text","text":"Lecture 5: What the agent built, part 1. Topics: HTTP, REST vs GraphQL, data modeling, ORM, layers"}],"isError":false}}
+{"jsonrpc":"2.0","id":4,"method":"tools/call","params":{"name":"find_lecture","arguments":{"number":99}}}
+got: {"jsonrpc":"2.0","id":4,"method":"tools/call","params":{"name":"find_lecture","arguments":{"number":99}}}
+{"jsonrpc":"2.0","id":4,"result":{"content":[{"type":"text","text":"There is no lecture 99. The course has lectures 1 to 10."}],"isError":true}}
+```
+
 ## The description experiment
-<!-- Three sentences: what you changed in the description, whether the model chose the tool differently, and why you think so. -->
+I made the custom tool description more specific by saying it should be used when the user asks which lecture covers a topic and the lecture number is not known. I have not run the connected Gemini CLI experiment, so I cannot yet report whether the model chose the tool differently. The description should help because it tells the model to use this tool for topic searches when the lecture number is unknown.
+
+<!-- Run the connected Gemini CLI experiment and replace this note with its observed result before submission. -->
