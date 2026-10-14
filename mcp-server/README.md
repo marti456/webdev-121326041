@@ -39,6 +39,10 @@ It prints one line per check. Fix the failures yourself: the agent may explain a
 ## How to start it
 <!-- The exact command, so the lecturer can run your server too. -->
 
+```bash
+npm run --silent mcp
+```
+
 ## Session transcript
 <!-- Paste one full session: initialize, the reply, tools/list, one good tools/call, one that fails. -->
 
